@@ -21,6 +21,13 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  /* Yeh Nishant ka change tha for layout stability */
+  overflow-x: hidden; 
+}
+
+/* Yeh bhi Nishant ka naya addition tha */
+html {
+  scrollbar-gutter: stable;
 }
 
 main {
@@ -85,7 +92,6 @@ a {
   0% { transform: translateX(0); }
   100% { transform: translateX(-33.3333%); }
 }
-
 
 .header-inner {
   display: flex;
@@ -319,5 +325,310 @@ a {
   .nav {
     flex-wrap: wrap;
     gap: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 14px 0;
+    gap: 10px;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .nav {
+    gap: 8px 12px;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .nav-button {
+    padding: 7px 12px !important;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .top-strip {
+    font-size: 9px;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  /* Footer mobile fixes */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px 0;
+  }
+
+  .brand-desc {
+    font-size: 15px;
+  }
+
+  .brand-desc br {
+    display: none;
+  }
+
+  .social-handles {
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .footer-title {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .footer-bottom {
+    font-size: 11px;
+    padding: 12px 0;
+  }
+}
+
+/* ==========================================================================
+   Premium PPF Pages Styling (Friend's Code Added Below)
+   ========================================================================== */
+
+.ppf-hero-bg {
+  position: relative;
+  background: radial-gradient(circle at top right, rgba(251, 146, 60, 0.08), transparent 45%),
+    radial-gradient(circle at bottom left, rgba(234, 88, 12, 0.05), transparent 40%);
+  overflow: hidden;
+}
+
+.ppf-gradient-text {
+  background: linear-gradient(135deg, #ffffff 30%, var(--brand) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ppf-glow-card {
+  background: rgba(23, 31, 51, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 181, 153, 0.1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ppf-glow-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(251, 146, 60, 0.4);
+  box-shadow: 0 12px 40px rgba(234, 88, 12, 0.15);
+}
+
+.image-placeholder-box {
+  background: linear-gradient(135deg, rgba(23, 31, 51, 0.8), rgba(45, 52, 73, 0.6));
+  border: 1px dashed rgba(255, 181, 153, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  min-height: 240px;
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.image-placeholder-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.image-placeholder-box:hover {
+  border-color: var(--brand);
+  background: linear-gradient(135deg, rgba(23, 31, 51, 0.9), rgba(45, 52, 73, 0.7));
+}
+
+.placeholder-badge {
+  background: rgba(251, 146, 60, 0.1);
+  color: var(--brand);
+  border: 1px solid rgba(251, 146, 60, 0.2);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.interactive-menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.interactive-tab-btn {
+  width: 100%;
+  text-align: left;
+  padding: 16px 20px;
+  background: rgba(23, 31, 51, 0.4);
+  border: 1px solid rgba(255, 181, 153, 0.05);
+  border-left: 3px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+}
+
+.interactive-tab-btn:hover {
+  background: rgba(23, 31, 51, 0.8);
+  color: #fff;
+  border-color: rgba(255, 181, 153, 0.15);
+}
+
+.interactive-tab-btn.active {
+  background: rgba(45, 52, 73, 0.5);
+  color: var(--brand);
+  border-left-color: #FB923C;
+  border-color: rgba(251, 146, 60, 0.2);
+  box-shadow: inset 3px 0 0 #FB923C;
+}
+
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.spec-card {
+  background: rgba(11, 19, 38, 0.5);
+  border: 1px solid rgba(255, 181, 153, 0.1);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.spec-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.spec-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.quote-btn {
+  background: linear-gradient(135deg, #FB923C 0%, #EA580C 100%);
+  color: #0b1326;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.25);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.quote-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(234, 88, 12, 0.4);
+  background: linear-gradient(135deg, #fba054 0%, #f1641b 100%);
+}
+
+.price-indicator {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand);
+  background: rgba(255, 181, 153, 0.1);
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.pricing-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.pricing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 181, 153, 0.2);
+}
+
+.pricing-dot.filled {
+  background: var(--brand);
+  box-shadow: 0 0 8px var(--brand);
+}
+
+@media (max-width: 768px) {
+  .spec-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .interactive-tab-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  .quote-btn {
+    font-size: 13px;
+    padding: 12px 20px;
+  }
+
+  .image-placeholder-box {
+    min-height: 180px;
+    padding: 16px;
+  }
+
+  .placeholder-badge {
+    font-size: 10px;
+  }
+
+  .spec-card {
+    padding: 10px 12px;
+  }
+
+  .spec-label {
+    font-size: 10px;
+  }
+
+  .spec-value {
+    font-size: 13px;
+  }
+
+  .ppf-glow-card {
+    padding: 16px;
+  }
+
+  .price-indicator {
+    font-size: 12px;
+    padding: 4px 10px;
   }
 }
