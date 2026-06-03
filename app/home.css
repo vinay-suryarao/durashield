@@ -9,7 +9,7 @@
 
 .hero-premium {
   position: relative;
-  min-height: 88vh;
+  min-height: calc(110vh - var(--header-offset));
   display: grid;
   align-items: center;
   border-radius: 0;
@@ -19,6 +19,7 @@
   /* Break out of .container to go full width */
   width: 100vw;
   margin-left: calc(-50vw + 50%);
+  margin-top: 0;
 }
 
 .hero-bg {

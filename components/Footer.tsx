@@ -14,7 +14,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div>
-          <div className="brand-logo-container" style={{ marginBottom: '12px' }}>
+          <div className="brand-logo-container logo-offset" style={{ marginBottom: '12px' }}>
             <Image
               src="/logo1 (2).png"
               alt="Durashield Logo"
@@ -23,12 +23,12 @@ export default function Footer() {
               style={{ objectFit: 'contain' }}
             />
           </div>
-          <p className="brand-desc">
+          <p className="brand-desc footer-text-offset">
             Premium paint protection film solutions for<br />
             scratch defense, rock chip resistance,<br />
             and lasting gloss retention.
           </p>
-          <div className="social-handles">
+          <div className="social-handles footer-text-offset">
             <a href="https://www.instagram.com/dura_shield" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
             </a>
