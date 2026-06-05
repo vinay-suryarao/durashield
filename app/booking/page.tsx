@@ -25,6 +25,8 @@ export default function BookingPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -34,20 +36,46 @@ export default function BookingPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Booking submitted:", formData);
-    setSubmitted(true);
-    setFormData({
-      fullName: "",
-      phone: "",
-      carModel: "",
-      product: "",
-      preferredDate: "",
-      preferredTime: "",
-      notes: ""
-    });
-    setTimeout(() => setSubmitted(false), 5000);
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/booking", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "Booking could not be submitted.");
+      }
+
+      setSubmitted(true);
+      setFormData({
+        fullName: "",
+        phone: "",
+        carModel: "",
+        product: "",
+        preferredDate: "",
+        preferredTime: "",
+        notes: ""
+      });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Booking could not be submitted. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -89,6 +117,7 @@ export default function BookingPage() {
                       value={formData.fullName}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div className="form-group">
@@ -101,7 +130,9 @@ export default function BookingPage() {
                       placeholder="Enter 10-digit phone number"
                       value={formData.phone}
                       onChange={handleChange}
+                      pattern="[0-9]{10}"
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -119,6 +150,7 @@ export default function BookingPage() {
                       value={formData.carModel}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div className="form-group">
@@ -130,11 +162,13 @@ export default function BookingPage() {
                       value={formData.product}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                     >
                       <option value="">Select product</option>
-                      <option value="ceramic">Premium Ceramic Film</option>
-                      <option value="carbon">Carbon Shield</option>
-                      <option value="standard">Standard Dyed</option>
+                      <option value="standard-shield">Standard Shield</option>
+                      <option value="premium-guard">Premium Guard</option>
+                      <option value="specialty-armor">Specialty Armor</option>
+                      <option value="not-sure">Not Sure - Need Consultation</option>
                     </select>
                   </div>
                 </div>
@@ -151,6 +185,7 @@ export default function BookingPage() {
                       value={formData.preferredDate}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div className="form-group">
@@ -162,6 +197,7 @@ export default function BookingPage() {
                       value={formData.preferredTime}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
                     >
                       <option value="">Select time slot</option>
                       <option value="morning">Morning (9 AM - 12 PM)</option>
@@ -182,12 +218,19 @@ export default function BookingPage() {
                     rows={3}
                     value={formData.notes}
                     onChange={handleChange}
+                    disabled={isSubmitting}
                   ></textarea>
                 </div>
 
+                {submitError && (
+                  <div className="booking-error-message" role="alert">
+                    {submitError}
+                  </div>
+                )}
+
                 {/* Submit Button */}
-                <button type="submit" className="booking-submit-btn">
-                  Confirm Booking
+                <button type="submit" className="booking-submit-btn" disabled={isSubmitting}>
+                  {isSubmitting ? "Submitting..." : "Confirm Booking"}
                 </button>
               </form>
               </>
