@@ -19,6 +19,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
         {/* Yahan font mein 400, 600 aur dost wala 700 teeno included hain */}
+        <link rel="icon" href="/logo1%20%282%29.png" type="image/png" />
         <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>

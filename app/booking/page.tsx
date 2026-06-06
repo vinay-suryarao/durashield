@@ -164,10 +164,10 @@ export default function BookingPage() {
                       required
                       disabled={isSubmitting}
                     >
-                      <option value="">Select product</option>
-                      <option value="standard-shield">Standard Shield</option>
-                      <option value="premium-guard">Premium Guard</option>
-                      <option value="specialty-armor">Specialty Armor</option>
+                      <option value="">Select a product</option>
+                      <option value="standard-shield">DURA SHIELD ORO (GLOSS)</option>
+                      <option value="premium-guard">DURA SHIELD MATT</option>
+                      <option value="specialty-armor">DURA SHIELD PPF (GLOSS)</option>
                       <option value="not-sure">Not Sure - Need Consultation</option>
                     </select>
                   </div>
