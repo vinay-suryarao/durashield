@@ -661,3 +661,178 @@ a {
     padding: 4px 10px;
   }
 }
+
+/* ==========================================================================
+   Products Grid Page Custom Styling
+   ========================================================================== */
+
+.products-page-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.products-grid-section {
+  margin-bottom: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .products-grid-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.products-grid-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.products-grid-title {
+  font-family: "Anton", sans-serif;
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #dae2fd;
+  letter-spacing: 0.025em;
+  text-align: center;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .products-grid-title {
+    font-size: 2.25rem; /* 36px */
+  }
+}
+
+.products-grid-subtitle {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.875rem; /* 14px */
+  color: #e2bfb2;
+  margin-top: 0.75rem;
+  max-w: 42rem; /* 672px */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .products-grid-subtitle {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.products-grid-card {
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(6, 14, 32, 0.6);
+  border: 1px solid rgba(45, 52, 73, 0.5);
+  transition: all 0.2s ease;
+}
+
+.products-grid-card:hover {
+  border-color: rgba(255, 181, 153, 0.3);
+  transform: scale(1.01);
+}
+
+.products-card-image-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+  height: 12rem; /* 192px */
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #0b1326;
+  border: 1px solid rgba(45, 52, 73, 0.3);
+}
+
+.products-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.products-card-image-wrapper:hover .products-card-image {
+  transform: scale(1.05);
+}
+
+.products-card-header {
+  margin-bottom: 1rem;
+}
+
+.products-card-tag {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(226, 191, 178, 0.7);
+  font-weight: 600;
+}
+
+.products-card-title {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  margin-top: 0.25rem;
+  color: #dae2fd;
+}
+
+.products-card-description {
+  font-size: 0.875rem;
+  color: #e2bfb2;
+  line-height: 1.625;
+  margin-bottom: 1.5rem;
+}
+
+.products-card-button {
+  width: 100%;
+  text-align: center;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(to right, #FB923C, #EA580C);
+  color: #0b1326;
+  font-weight: 700;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.products-card-button:hover {
+  box-shadow: 0 10px 15px -3px rgba(234, 88, 12, 0.25), 0 4px 6px -2px rgba(234, 88, 12, 0.25);
+}
+
+.font-anton {
+  font-family: "Anton", sans-serif;
+}
+
+.tracking-wide-002 {
+  letter-spacing: 0.02em;
+}
+
+.tracking-wide-003 {
+  letter-spacing: 0.03em;
+}

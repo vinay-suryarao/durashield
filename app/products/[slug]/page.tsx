@@ -3,142 +3,50 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import {
+  Sparkles,
+  Wrench,
+  Droplet,
+  ShieldAlert,
+  FlaskConical,
+  Sun,
+  ShieldCheck,
+  Flame,
+  Hammer,
+  Check,
+  Maximize2,
+  Heart,
+  Eye,
+  Clock,
+  Shield
+} from "lucide-react";
+import { categories } from "../../../data/prodata";
 
-// Complete PPF Category & Product Types Database
-const categoryData: Record<
-  string,
-  {
-    title: string;
-    tagline: string;
-    technology: string;
-    types: Array<{
-      name: string;
-      placeholderText: string;
-      specifications: {
-        thickness: string;
-        warranty: string;
-        healing: string;
-        gloss: string;
-      };
-      bestSuited: string;
-      pricingTier: number;
-    }>;
-  }
-> = {
-  standard: {
-    title: "Standard Shield Options",
-    tagline: "Essential Rock Chip & Scratch Defense",
-    technology: "Our Standard Shield uses high-tensile aliphatic polyurethane to provide a tough barrier against impact. While budget-friendly, it incorporates a clear topcoat that prevents paint staining and matches the glossy texture of factory paints, ensuring your vehicle remains guarded against daily roadway abrasions.",
-    types: [
-      {
-        name: "Classic Clear",
-        placeholderText: "[Image Placeholder: Front bumper of a white daily driver showing near-invisible edges of Classic Clear film, under clean daylight]",
-        specifications: {
-          thickness: "7.2 Mils",
-          warranty: "5 Years Limited Warranty",
-          healing: "Heat-Activated (Requires warm water or heat gun at 60°C)",
-          gloss: "High Gloss Reflective Finish"
-        },
-        bestSuited: "Commuter vehicles, highway daily drivers, and leased cars seeking reliable protection against gravel and minor abrasions at an affordable price.",
-        pricingTier: 2
-      },
-      {
-        name: "Lite Guard",
-        placeholderText: "[Image Placeholder: Close-up of car mirrors and door cups wrapped in Lite Guard, preventing key scrapes and stone chips]",
-        specifications: {
-          thickness: "6.8 Mils",
-          warranty: "3 Years Entry-Level Warranty",
-          healing: "Standard Heat Healing",
-          gloss: "Standard Factory Gloss Match"
-        },
-        bestSuited: "Short-term leases, partial-front installations, and owners looking for a budget-friendly shield against minor abrasions.",
-        pricingTier: 1
-      }
-    ]
-  },
-  premium: {
-    title: "Premium Guard Options",
-    tagline: "Advanced Self-Healing Paint Armor",
-    technology: "Engineered with advanced elastomeric polymers, Premium Guard is our flagship film. It automatically heals swirl marks and light scratches with ambient heat or sunlight. Its advanced hydrophobic topcoat repels water, dirt, and oil, maintaining a deep, mirror-like gloss and preventing yellowing over time.",
-    types: [
-      {
-        name: "Ultra-Gloss Clear",
-        placeholderText: "[Image Placeholder: Close-up of a high-end black sports car hood, reflecting bright neon ceiling bars with zero distortion, showing depth of gloss]",
-        specifications: {
-          thickness: "8.0 Mils",
-          warranty: "10 Years Premium Warranty",
-          healing: "Rapid Self-Healing (Minutes in direct sunlight or warm water)",
-          gloss: ">95% Gloss Reflection Factor (Mirror Clarity)"
-        },
-        bestSuited: "Luxury sedans, sports cars, and collector vehicles with dark, metallic, or rich solid paint where gloss depth and absolute clarity are paramount.",
-        pricingTier: 3
-      },
-      {
-        name: "Hydro-Shield Pro",
-        placeholderText: "[Image Placeholder: Detailed macro-shot of a car fender with water beads in perfect circles, sliding off the surface leaving no water spots]",
-        specifications: {
-          thickness: "8.5 Mils",
-          warranty: "12 Years Premium Warranty",
-          healing: "Instant Self-Healing (ambient temperature scratch recovery)",
-          gloss: "Deep Gloss with Integrated Ceramic-Hydrophobic Topcoat"
-        },
-        bestSuited: "Daily driven luxury SUVs, electric vehicles, and cars in harsh weather regions exposed to rain, winter road salts, and chemical pollutants.",
-        pricingTier: 4
-      }
-    ]
-  },
-  specialty: {
-    title: "Specialty Armor Options",
-    tagline: "Custom Finishes & High-Velocity Protection",
-    technology: "Specialty Armor is designed for drivers seeking custom aesthetics or track-ready durability. Whether transforming gloss paint into a sleek satin-matte finish, adding colored protection, or installing ultra-thick track shields, this line delivers the peak of performance and customization.",
-    types: [
-      {
-        name: "Satin Matte Conversion",
-        placeholderText: "[Image Placeholder: Side profile of a dark grey sports car with sharp body lines, showing a smooth satin matte texture that diffuses reflections]",
-        specifications: {
-          thickness: "8.2 Mils",
-          warranty: "10 Years Premium Warranty",
-          healing: "Heat-Activated Self-Healing (maintains uniform matte texture)",
-          gloss: "Deep Satin Matte Finish (Transforms gloss to satin)"
-        },
-        bestSuited: "Enthusiasts wanting a custom satin/matte look without the extreme maintenance and vulnerability of matte factory paint.",
-        pricingTier: 4
-      },
-      {
-        name: "Color-Shift Armor",
-        placeholderText: "[Image Placeholder: Curved quarter-panel of an exotic car shifting color from purple to green, wrapped in high-gloss colored PPF]",
-        specifications: {
-          thickness: "8.0 Mils",
-          warranty: "7 Years Specialty Warranty",
-          healing: "High-Temperature Self-Healing",
-          gloss: "Color-Changing Iridescent Gloss Finish"
-        },
-        bestSuited: "Owners who want to completely change their vehicle's color while gaining the heavy-duty paint protection of traditional clear PPF.",
-        pricingTier: 4
-      },
-      {
-        name: "Track-Day Heavy-Duty",
-        placeholderText: "[Image Placeholder: Race-track prepped sports car front end, highlighting an extra-thick protective film layer designed for high-velocity track debris]",
-        specifications: {
-          thickness: "10.0 Mils",
-          warranty: "7 Years Heavy-Duty Warranty",
-          healing: "Heavy Thermal Self-Healing",
-          gloss: "High-Gloss Heavy Impact Shield"
-        },
-        bestSuited: "Track-day enthusiasts, high-velocity sports cars, and off-road vehicles requiring maximum impact and abrasion resistance.",
-        pricingTier: 4
-      }
-    ]
-  }
+// Helper function to return feature icons based on name matches
+const getFeatureIcon = (featureName: string, className?: string) => {
+  const name = featureName.toLowerCase();
+  if (name.includes("self healing")) return <Heart className={className} />;
+  if (name.includes("anti-yellowing")) return <ShieldAlert className={className} />;
+  if (name.includes("gloss") || name.includes("matte")) return <Sparkles className={className} />;
+  if (name.includes("hydrophobic")) return <Droplet className={className} />;
+  if (name.includes("stain")) return <Shield className={className} />;
+  if (name.includes("chemical")) return <FlaskConical className={className} />;
+  if (name.includes("clarity")) return <Eye className={className} />;
+  if (name.includes("mechanical")) return <ShieldCheck className={className} />;
+  if (name.includes("stretch")) return <Maximize2 className={className} />;
+  if (name.includes("longevity")) return <Clock className={className} />;
+  if (name.includes("curved") || name.includes("install")) return <Wrench className={className} />;
+  if (name.includes("clean")) return <Check className={className} />;
+  return <ShieldCheck className={className} />;
 };
 
 export default function CategoryDetailPage() {
   const params = useParams();
-  const slug = (params?.slug as string) || "premium"; // Default fallback to premium as requested
+  const slug = (params?.slug as string) || "pro-gloss"; // Default fallback to pro-gloss
 
   // Get active category data or fallback
-  const category = categoryData[slug];
-  const [activeTypeIndex, setActiveTypeIndex] = useState(0);
+  const category = categories.find((cat) => cat.id === slug);
+  const [activeTab, setActiveTab] = useState<"features" | "specs">("features");
 
   // Dynamically update document title for SEO on client side
   useEffect(() => {
@@ -151,7 +59,7 @@ export default function CategoryDetailPage() {
   if (!category) {
     return (
       <div className="py-20 text-center">
-        <h2 className="text-3xl font-bold mb-4" style={{ fontFamily: "Anton, sans-serif" }}>
+        <h2 className="text-3xl font-bold mb-4 font-anton">
           Category Not Found
         </h2>
         <p className="text-[#e2bfb2] mb-8">
@@ -164,106 +72,241 @@ export default function CategoryDetailPage() {
     );
   }
 
-  const activeProduct = category.types[activeTypeIndex] || category.types[0];
+  // Parse numeric values for HUD dials
+  const selfHealingVal = parseInt(category.technicalSpecs.selfHealingCoating) || 15;
+  const tpuVal = parseInt(category.technicalSpecs.tpuThickness) || 160;
+  const adhesiveVal = parseInt(category.technicalSpecs.psAdhesive) || 25;
+  const totalVal = parseInt(category.technicalSpecs.totalThickness) || 200;
+
+  // Calculate percentages
+  const selfHealingPct = Math.min((selfHealingVal / 20) * 100, 100);
+  const tpuPct = Math.min((tpuVal / 200) * 100, 100);
+  const adhesivePct = Math.min((adhesiveVal / 30) * 100, 100);
 
   return (
     <div className="py-12">
       {/* Dynamic Header Section */}
       <section className="mb-12">
         <div className="mb-6">
-          <Link href="/products" className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#ffb599] border border-[#ffb599]/30 hover:border-[#ffb599] hover:bg-[#ffb599]/10 px-3 py-1.5 rounded-full transition-all duration-200">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#ffb599] border border-[#ffb599]/30 hover:border-[#ffb599] hover:bg-[#ffb599]/10 px-3 py-1.5 rounded-full transition-all duration-200"
+          >
             ← Back to All Categories
           </Link>
         </div>
         <div className="border-b border-[#2d3449] pb-8">
           <span className="text-xs uppercase tracking-widest text-[#FB923C] font-semibold mb-2 inline-block">
-            {category.tagline}
+            {category.tag}
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold uppercase mb-4 text-[#dae2fd]" style={{ fontFamily: "Anton, sans-serif", letterSpacing: "0.03em" }}>
+          <h1
+            className="text-4xl md:text-5xl font-extrabold uppercase mb-4 text-[#dae2fd] font-anton tracking-wide-003"
+          >
             {category.title}
           </h1>
+          <p className="text-[#e2bfb2] text-sm md:text-base max-w-3xl leading-relaxed mt-2">
+            {category.description}
+          </p>
         </div>
       </section>
 
-      {/* Interactive Type Selector Section */}
+      {/* Interactive Tabs Section */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Vertical Interactive Menu */}
+        {/* Left Column: Vertical Interactive Tabs */}
         <div className="lg:col-span-4">
           <h3 className="text-xs uppercase tracking-widest text-[#e2bfb2]/60 font-semibold mb-4">
-            Select Product Type
+            Select Information
           </h3>
           <div className="interactive-menu-container">
-            {category.types.map((type, idx) => (
-              <button
-                key={type.name}
-                onClick={() => setActiveTypeIndex(idx)}
-                className={`interactive-tab-btn ${idx === activeTypeIndex ? "active" : ""
-                  }`}
-              >
-                <span>{type.name}</span>
-              </button>
-            ))}
+            <button
+              onClick={() => setActiveTab("features")}
+              className={`interactive-tab-btn ${activeTab === "features" ? "active" : ""}`}
+            >
+              <span>Features</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("specs")}
+              className={`interactive-tab-btn ${activeTab === "specs" ? "active" : ""}`}
+            >
+              <span>Technical Specifications</span>
+            </button>
           </div>
         </div>
 
-        {/* Right Column: Dynamic Content Update */}
+        {/* Right Column: Tab Content */}
         <div className="lg:col-span-8 bg-[#171f33]/40 border border-[#2d3449] rounded-2xl p-6 md:p-8 backdrop-blur-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left of details: Dynamic Image Placeholder */}
+          {activeTab === "features" ? (
             <div>
-              <div className="image-placeholder-box mb-4 min-h-[300px]">
-                <div className="placeholder-badge">Active Product Display</div>
+              <h2 className="text-2xl font-bold text-[#dae2fd] mb-8 uppercase tracking-wider border-b border-[#2d3449]/40 pb-4">
+                Feature Console
+              </h2>
+              
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8 justify-items-center">
+                {category.features.map((feature, idx) => (
+                  <div
+                    key={idx}
+                    className="group flex flex-col items-center text-center max-w-[130px]"
+                  >
+                    {/* Dial Circle */}
+                    <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[#171f33]/95 to-[#070d19] border border-[#2d3449] hover:border-[#FB923C] shadow-lg transition-all duration-500 flex items-center justify-center mb-3 cursor-pointer hover:scale-105 shadow-[#000]/50 hover:shadow-[#FB923C]/15">
+                      {/* Spin dash ring on hover */}
+                      <div className="absolute inset-0 rounded-full border border-dashed border-[#FB923C]/0 group-hover:border-[#FB923C]/40 group-hover:rotate-180 transition-all duration-700 ease-out" />
+                      <div className="absolute inset-1.5 rounded-full border border-transparent group-hover:border-[#FB923C]/15 transition-all duration-300" />
+                      
+                      {/* Icon */}
+                      <div className="text-[#FB923C] group-hover:text-white group-hover:scale-110 transition-all duration-300">
+                        {getFeatureIcon(feature, "w-7 h-7 md:w-8 md:h-8")}
+                      </div>
+                    </div>
+
+                    {/* Feature Label */}
+                    <h4 className="text-[10px] md:text-xs font-bold text-[#dae2fd] uppercase tracking-wider leading-snug group-hover:text-white transition-all h-8 flex items-center justify-center text-center">
+                      {feature}
+                    </h4>
+                  </div>
+                ))}
               </div>
             </div>
+          ) : (
+            <div>
+              <h2 className="text-2xl font-bold text-[#dae2fd] mb-6">
+                Technical Specifications
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                {/* HUD Panel: Circular Dial & Performance Bars */}
+                <div className="lg:col-span-5 bg-[#0b1326]/60 border border-[#2d3449]/80 rounded-2xl p-6 flex flex-col items-center justify-between">
+                  <div className="w-full text-center">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-[#FB923C] block mb-4 text-center">
+                      Thickness HUD Meter
+                    </span>
+                    
+                    {/* Glowing Circular Gauge Pod */}
+                    <div className="relative w-44 h-44 mx-auto rounded-full border-2 border-dashed border-[#ffb599]/20 flex flex-col items-center justify-center bg-[#070d19] shadow-inner p-4 mb-6">
+                      <div className="absolute inset-2 rounded-full border border-[#FB923C]/30 animate-pulse" />
+                      <span className="text-4xl font-extrabold text-[#FB923C] font-anton">
+                        {totalVal}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-[#e2bfb2]/70 font-semibold mt-1">
+                        Microns
+                      </span>
+                      <span className="text-[8px] uppercase tracking-widest text-[#FB923C]/60 font-bold mt-2">
+                        Total Thickness
+                      </span>
+                    </div>
+                  </div>
 
-            {/* Right of details: Specifications & Content */}
-            <div className="flex flex-col justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-[#dae2fd] mt-1 mb-4">
-                  {activeProduct.name}
-                </h2>
+                  {/* Horizontal Bar Meters */}
+                  <div className="w-full flex flex-col gap-4">
+                    {/* Bar 1: Self Healing Coat */}
+                    <div>
+                      <div className="flex justify-between items-center text-xs mb-1.5 font-medium">
+                        <span className="text-[#dae2fd]">Self-Healing Top Coat</span>
+                        <span className="text-[#FB923C] font-bold">{selfHealingVal}µm</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#171f33] rounded-full overflow-hidden border border-[#2d3449]">
+                        <div 
+                          className="h-full rounded-full bg-gradient-to-r from-[#FB923C] to-[#EA580C] shadow-[0_0_8px_#FB923C]"
+                          style={{ width: `${selfHealingPct}%` }}
+                        />
+                      </div>
+                    </div>
 
-                {/* Key Specifications Grid */}
-                <div className="spec-grid">
-                  <div className="spec-card">
-                    <div className="spec-label">Thickness</div>
-                    <div className="spec-value">{activeProduct.specifications.thickness}</div>
-                  </div>
-                  <div className="spec-card">
-                    <div className="spec-label">Warranty</div>
-                    <div className="spec-value">{activeProduct.specifications.warranty}</div>
-                  </div>
-                  <div className="spec-card">
-                    <div className="spec-label">Self-Healing</div>
-                    <div className="spec-value">{activeProduct.specifications.healing}</div>
-                  </div>
-                  <div className="spec-card">
-                    <div className="spec-label">Gloss / Finish</div>
-                    <div className="spec-value">{activeProduct.specifications.gloss}</div>
+                    {/* Bar 2: TPU Film Base */}
+                    <div>
+                      <div className="flex justify-between items-center text-xs mb-1.5 font-medium">
+                        <span className="text-[#dae2fd]">TPU Film Base</span>
+                        <span className="text-[#e2bfb2] font-bold">{tpuVal}µm</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#171f33] rounded-full overflow-hidden border border-[#2d3449]">
+                        <div 
+                          className="h-full rounded-full bg-[#ffb599] shadow-[0_0_8px_rgba(255,181,153,0.5)]"
+                          style={{ width: `${tpuPct}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Bar 3: PS Adhesive */}
+                    <div>
+                      <div className="flex justify-between items-center text-xs mb-1.5 font-medium">
+                        <span className="text-[#dae2fd]">PS Adhesive Layer</span>
+                        <span className="text-[#e2bfb2]/70 font-bold">{adhesiveVal}µm</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#171f33] rounded-full overflow-hidden border border-[#2d3449]">
+                        <div 
+                          className="h-full rounded-full bg-[#2d3449]"
+                          style={{ width: `${adhesivePct}%` }}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Best Suited For */}
-                <div className="mb-6">
-                  <div className="text-xs uppercase text-[#e2bfb2]/60 tracking-wider mb-2 font-semibold">
-                    Best Suited For
+                {/* Info Cards Panel */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  {/* Warranty Period Dashboard Card */}
+                  <div className="bg-[#0b1326]/40 border border-[#2d3449] rounded-2xl p-5 flex items-start gap-4 hover:border-[#ffb599]/20 transition-all duration-300">
+                    <div className="p-3.5 rounded-xl bg-[#FB923C]/10 text-[#FB923C] shrink-0">
+                      <Shield className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#e2bfb2]/60">
+                        Warranty Coverage
+                      </span>
+                      <h4 className="text-3xl font-extrabold text-white mt-1 font-anton tracking-wide-002">
+                        {category.technicalSpecs.warrantyPeriod} Period
+                      </h4>
+                      <p className="text-xs text-[#e2bfb2] mt-1.5">
+                        Guarantees long-term film durability, covering defects like <strong className="text-white font-medium">{category.technicalSpecs.warrantyCovers}</strong>.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-sm text-[#e2bfb2] leading-relaxed">
-                    {activeProduct.bestSuited}
-                  </p>
+
+                  {/* Self-Healing efficiency Card */}
+                  <div className="bg-[#0b1326]/40 border border-[#2d3449] rounded-2xl p-5 flex items-start gap-4 hover:border-[#ffb599]/20 transition-all duration-300">
+                    <div className="p-3.5 rounded-xl bg-[#FB923C]/10 text-[#FB923C] shrink-0">
+                      <Flame className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#e2bfb2]/60">
+                        Self-Healing Efficiency
+                      </span>
+                      <h4 className="text-lg font-bold text-white mt-1">
+                        {category.technicalSpecs.selfHealingEfficiency}
+                      </h4>
+                      <p className="text-xs text-[#e2bfb2] mt-1.5">
+                        Top elastomeric layer returns to its flat molecular form when exposed to direct sunlight or warm water, erasing swirls.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Material Base Card */}
+                  <div className="bg-[#0b1326]/40 border border-[#2d3449] rounded-2xl p-5 flex items-start gap-4 hover:border-[#ffb599]/20 transition-all duration-300">
+                    <div className="p-3.5 rounded-xl bg-[#FB923C]/10 text-[#FB923C] shrink-0">
+                      <Wrench className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-[#e2bfb2]/60">
+                        Chemical Composition
+                      </span>
+                      <h4 className="text-sm font-bold text-white mt-1">
+                        Premium Aliphatic Polyurethane (TPU)
+                      </h4>
+                      <p className="text-xs text-[#e2bfb2] mt-1.5">
+                        High-stretch compound with advanced optical clarity, engineered specifically to resist cracking, yellowing, and minor impacts.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Pricing Tier & CTA */}
-              <div className="border-t border-[#2d3449] pt-4 mt-4">
-                <Link
-                  href="/booking"
-                  className="quote-btn"
-                >
-                  Get a Custom Quote for Your Car
-                </Link>
-              </div>
             </div>
+          )}
+
+          {/* CTA */}
+          <div className="border-t border-[#2d3449] pt-6 mt-8">
+            <Link href="/booking" className="quote-btn">
+              Get a Custom Quote for Your Car
+            </Link>
           </div>
         </div>
       </section>
