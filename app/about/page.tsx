@@ -7,17 +7,14 @@ const factoryImgSrc = "/images/factory.jpeg";
 const installationImgSrc = "/images/installation.jpeg";
 
 const stats = [
-  { label: "Cars Protected", value: 1284, suffix: "+" },
+  { label: "Cars Protected", value: 12000, suffix: "+" },
   { label: "Factory QA Hours", value: 56, suffix: "k" },
-  { label: "Premium Installations", value: 912, suffix: "+" },
-  { label: "5-Star Reviews", value: 4.9, suffix: "/5" },
+  { label: "Premium Installations", value: 6000, suffix: "+" },
+  
 ];
 
 const timelineSteps = [
-  {
-    title: "Precision Film Manufacture",
-    detail: "We engineer every Dura Shield film sheet in-house for unmatched optical clarity and protection.",
-  },
+  
   {
     title: "Custom Pattern Plotting",
     detail: "Each panel is cut to exact vehicle geometry using advanced CNC profiling.",
@@ -150,8 +147,8 @@ export default function AboutPage() {
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l7 4v5c0 6-4 10-7 11-3-1-7-5-7-11V6l7-4z" fill="currentColor"/></svg>
               </div>
               <div className="feature-body">
-                <h3>In-House Engineered Film</h3>
-                <p>Precision-formulated protective film made in our factory for consistent clarity, durability, and long-lasting performance.</p>
+                <h3>Warranty Backed Protection</h3>
+                <p>Every installation is backed by a trusted warranty, ensuring long-term confidence, reliable performance, and hassle-free ownership.</p>
               </div>
             </div>
 
@@ -188,7 +185,7 @@ export default function AboutPage() {
             applying it with our own certified installation teams.
           </p>
           <ul>
-            <li>In-house film development for exceptional clarity and durability</li>
+            
             <li>End-to-end quality control from roll to vehicle</li>
             <li>Dedicated installers trained on our exacting standards</li>
           </ul>
@@ -228,7 +225,7 @@ export default function AboutPage() {
       <section className={`process-panel panel ${process.active ? "in-view" : ""}`} ref={process.ref}>
         <div className="process-header">
           <span className="eyebrow">Our Process</span>
-          <h2>From factory precision to finished vehicle perfection.</h2>
+          <h2>From precision to finished vehicle perfection.</h2>
           <p>
             A premium finish requires a premium workflow. Every step is engineered and monitored
             for the highest level of film performance and installation accuracy.
