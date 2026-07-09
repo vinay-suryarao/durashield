@@ -33,10 +33,10 @@ export async function POST(request: Request) {
     // ROUTE 2: FULL REGISTRATION & SECURE TRANSLATION FORWARDER
     // =====================================================================
     if (action === "register_warranty") {
-      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, invoiceFile, vehicleFile } = body;
+      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, dealerName, dealerLocation, invoiceFile, vehicleFile } = body;
 
       // Tight server side parameters checking to avoid payload crashes
-      if (!name || !phone || !email || !warrantyNo || !vehicleNumber || !vehicleName || !city || !invoiceFile || !vehicleFile) {
+      if (!name || !phone || !email || !warrantyNo || !vehicleNumber || !vehicleName || !city || !dealerName || !dealerLocation || !invoiceFile || !vehicleFile) {
         return NextResponse.json({ error: 'Missing mandatory registration properties.' }, { status: 400 });
       }
 
@@ -52,6 +52,8 @@ export async function POST(request: Request) {
           vehicleNumber,
           vehicleName,
           city,
+          dealerName,
+          dealerLocation,
           invoiceFile,
           vehicleFile
         }),

@@ -64,6 +64,8 @@ function doPost(e) {
         "Email Address",
         "Vehicle Number",
         "City",
+        "Dealer Name",
+        "Dealer Location",
         "Warranty Number",
         "Photo Front Link",
         "Photo Rear Link"
@@ -80,6 +82,8 @@ function doPost(e) {
       data.email,
       data.vehicleNumber,
       data.city,
+      data.dealerName,
+      data.dealerLocation,
       data.warrantyNumber,
       photo1Url,
       photo2Url
@@ -115,6 +119,14 @@ function doPost(e) {
           '<tr>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Vehicle Number</td>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff;">' + data.vehicleNumber + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Dealer Name</td>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff;">' + data.dealerName + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Dealer Location</td>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff;">' + data.dealerLocation + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Registration Date</td>' +

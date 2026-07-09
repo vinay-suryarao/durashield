@@ -23,7 +23,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   /* Yeh Nishant ka change tha for layout stability */
-  overflow-x: hidden; 
+  overflow-x: hidden;
 }
 
 /* Yeh bhi Nishant ka naya addition tha */
@@ -105,8 +105,13 @@ a {
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-33.3333%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-33.3333%);
+  }
 }
 
 .header-inner {
@@ -424,7 +429,7 @@ a {
 }
 
 /* ==========================================================================
-   Premium PPF Pages Styling (Friend's Code Added Below)
+   Premium PPF Pages Styling 
    ========================================================================== */
 
 .ppf-hero-bg {
@@ -696,7 +701,8 @@ a {
 
 .products-grid-title {
   font-family: "Anton", sans-serif;
-  font-size: 1.875rem; /* 30px */
+  font-size: 1.875rem;
+  /* 30px */
   font-weight: 700;
   text-transform: uppercase;
   color: #dae2fd;
@@ -707,23 +713,27 @@ a {
 
 @media (min-width: 768px) {
   .products-grid-title {
-    font-size: 2.25rem; /* 36px */
+    font-size: 2.25rem;
+    /* 36px */
   }
 }
 
 .products-grid-subtitle {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem;
+  /* 14px */
   color: #e2bfb2;
   margin-top: 0.75rem;
-  max-w: 42rem; /* 672px */
+  max-w: 42rem;
+  /* 672px */
   margin-left: auto;
   margin-right: auto;
 }
 
 @media (min-width: 768px) {
   .products-grid-subtitle {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
+    /* 16px */
   }
 }
 
@@ -758,7 +768,8 @@ a {
 .products-card-image-wrapper {
   position: relative;
   margin-bottom: 1.5rem;
-  height: 12rem; /* 192px */
+  height: 12rem;
+  /* 192px */
   border-radius: 0.75rem;
   overflow: hidden;
   background: #0b1326;
@@ -789,7 +800,8 @@ a {
 }
 
 .products-card-title {
-  font-size: 1.5rem; /* 24px */
+  font-size: 1.5rem;
+  /* 24px */
   font-weight: 700;
   margin-top: 0.25rem;
   color: #dae2fd;

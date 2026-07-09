@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -12,6 +13,8 @@ interface WarrantyFormData {
   vehicleName: string;
   city: string;
   warrantyNo: string;
+  dealerName: string;
+  dealerLocation: string;
 }
 
 interface PhotoUploadProps {
@@ -202,7 +205,9 @@ export default function WarrantyPage() {
     vehicleNumber: "",
     vehicleName: "",
     city: "",
-    warrantyNo: ""
+    warrantyNo: "DS-",
+    dealerName: "",
+    dealerLocation: ""
   });
 
   const [invoiceFile, setInvoiceFile] = useState<string | null>(null);
@@ -214,19 +219,30 @@ export default function WarrantyPage() {
   const [warrantyMessage, setWarrantyMessage] = useState("");
   const [successInfo, setSuccessInfo] = useState<{ warrantyNo: string } | null>(null);
 
+  // 🛑 NAYA HANDLE CHANGE LOGIC YAHAN HAI
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const processedValue = name === "email" ? value : value.toUpperCase();
-    setFormData((prev) => ({ ...prev, [name]: processedValue }));
 
     if (name === "warrantyNo") {
+      const upperValue = value.toUpperCase();
+      // Agar user DS- ko delete karne ki koshish kare
+      if (!upperValue.startsWith("DS-")) {
+        setFormData((prev) => ({ ...prev, [name]: "DS-" }));
+      } else {
+        setFormData((prev) => ({ ...prev, [name]: upperValue }));
+      }
       setIsValidated(false);
       setWarrantyMessage("");
+      return; 
     }
+
+    // Baaki fields ke liye (Email chhod kar sab Uppercase)
+    const processedValue = name === "email" ? value : value.toUpperCase();
+    setFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
 
   const handleWarrantyVerification = async () => {
-    if (!formData.warrantyNo.trim()) return;
+    if (!formData.warrantyNo.trim() || formData.warrantyNo === "DS-") return;
     setIsSubmitting(true);
     setWarrantyMessage("Checking registration logs across system storage...");
 
@@ -279,6 +295,8 @@ export default function WarrantyPage() {
           vehicleNumber: formData.vehicleNumber,
           vehicleName: formData.vehicleName,
           city: formData.city,
+          dealerName: formData.dealerName,
+          dealerLocation: formData.dealerLocation,
           invoiceFile,
           vehicleFile
         })
@@ -291,7 +309,7 @@ export default function WarrantyPage() {
       }
 
       setSuccessInfo({ warrantyNo: result.warrantyNo });
-      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "" });
+      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "DS-", dealerName: "", dealerLocation: "" });
       setInvoiceFile(null);
       setVehicleFile(null);
       setIsValidated(false);
@@ -369,6 +387,17 @@ export default function WarrantyPage() {
               </div>
             </div>
 
+            <div className="form-grid form-grid-2">
+              <div className="form-group">
+                <label htmlFor="dealerName" className="form-label">Dealer Name *</label>
+                <input id="dealerName" name="dealerName" type="text" className="form-input" placeholder="Enter dealer name" value={formData.dealerName} onChange={handleChange} required disabled={isSubmitting} style={{ textTransform: "uppercase" }} />
+              </div>
+              <div className="form-group">
+                <label htmlFor="dealerLocation" className="form-label">Dealer Location *</label>
+                <input id="dealerLocation" name="dealerLocation" type="text" className="form-input" placeholder="Enter dealer location" value={formData.dealerLocation} onChange={handleChange} required disabled={isSubmitting} style={{ textTransform: "uppercase" }} />
+              </div>
+            </div>
+
             <div className="form-group" style={{ marginBottom: "20px" }}>
               <label htmlFor="vehicleNumber" className="form-label">Vehicle Number *</label>
               <input id="vehicleNumber" name="vehicleNumber" type="text" className="form-input" placeholder="Ex: MH-12-AB-1234" value={formData.vehicleNumber} onChange={handleChange} required disabled={isSubmitting} style={{ textTransform: "uppercase" }} />
@@ -383,12 +412,6 @@ export default function WarrantyPage() {
               <PhotoUpload label="Vehicle Front Side *" description="Upload a photo showing the front side of the vehicle." onPhotoCompressed={setInvoiceFile} disabled={isSubmitting} />
               <PhotoUpload label="Vehicle Rear Side *" description="Upload a photo showing the rear side of the vehicle." onPhotoCompressed={setVehicleFile} disabled={isSubmitting} />
             </div>
-
-            {statusMessage && (
-              <div style={{ marginTop: "20px", padding: "12px", backgroundColor: "rgba(255,255,255,0.05)", fontSize: "0.9rem", borderRadius: "6px", textAlign: "center", fontWeight: "600", border: "1px solid rgba(255,255,255,0.1)" }}>
-                {statusMessage}
-              </div>
-            )}
 
             <button type="submit" className="submit-btn" disabled={!isValidated || isSubmitting} style={{ marginTop: "20px" }}>
               {isSubmitting ? "Submitting..." : "Submit Warranty Registration"}
