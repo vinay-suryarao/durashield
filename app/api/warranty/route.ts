@@ -25,15 +25,28 @@ export async function POST(request: Request) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: "check_duplicate", warrantyNo: body.warrantyNo }),
       });
-      const data = await res.json();
-      return NextResponse.json(data, { status: 200 });
+      
+      // 🛡️ BUGS FIX: Safely parse Google's response to avoid 500 Crash
+      const textResponse = await res.text();
+      try {
+        const data = JSON.parse(textResponse);
+        return NextResponse.json(data, { status: 200 });
+      } catch (error) {
+        return NextResponse.json({ 
+          status: "error", 
+          exists: true, 
+          message: "Duplicate entry found or server connection failed." 
+        }, { status: 200 });
+      }
     }
 
     // =====================================================================
     // ROUTE 2: FULL REGISTRATION & SECURE TRANSLATION FORWARDER
     // =====================================================================
     if (action === "register_warranty") {
-      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, dealerName, dealerLocation, invoiceFile, vehicleFile } = body;
+      
+      // 💡 FIX 1: Frontend se aane wale 'baseUrl' ko extract kiya
+      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, dealerName, dealerLocation, invoiceFile, vehicleFile, baseUrl } = body;
 
       // Tight server side parameters checking to avoid payload crashes
       if (!name || !phone || !email || !warrantyNo || !vehicleNumber || !vehicleName || !city || !dealerName || !dealerLocation || !invoiceFile || !vehicleFile) {
@@ -46,7 +59,7 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           action: "register_warranty",
           name,
-          mobile: phone, // Safe data property key alignment pointing into gas variable logs
+          mobile: phone, 
           email,
           warrantyNo,
           vehicleNumber,
@@ -55,16 +68,22 @@ export async function POST(request: Request) {
           dealerName,
           dealerLocation,
           invoiceFile,
-          vehicleFile
+          vehicleFile,
+          baseUrl // 💡 FIX 2: baseUrl ko Google Apps Script tak bhej diya!
         }),
       });
 
-      const data = await res.json();
-
-      if (data.status === "success") {
-        return NextResponse.json(data, { status: 200 });
-      } else {
-        return NextResponse.json({ error: data.message || 'Error processing cloud records' }, { status: 500 });
+      const textResponse = await res.text();
+      
+      try {
+        const data = JSON.parse(textResponse);
+        if (data.status === "success" || data.status === 200) {
+          return NextResponse.json(data, { status: 200 });
+        } else {
+          return NextResponse.json({ error: data.message || 'Error processing cloud records' }, { status: 500 });
+        }
+      } catch (parseError) {
+        return NextResponse.json({ error: 'Failed to process Google Cloud response.' }, { status: 500 });
       }
     }
 

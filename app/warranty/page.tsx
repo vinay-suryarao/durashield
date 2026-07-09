@@ -279,8 +279,11 @@ export default function WarrantyPage() {
       return;
     }
 
-    setIsSubmitting(true);
+   setIsSubmitting(true);
     setStatusMessage("Transmitting verified data streams to private Workspace infrastructure...");
+
+    // 💡 NAYA LOGIC: Website ka link (URL) automatically nikalna
+    const currentDomain = window.location.origin;
 
     try {
       const response = await fetch("/api/warranty", {
@@ -298,7 +301,8 @@ export default function WarrantyPage() {
           dealerName: formData.dealerName,
           dealerLocation: formData.dealerLocation,
           invoiceFile,
-          vehicleFile
+          vehicleFile,
+          baseUrl: currentDomain // 👈 Yeh nayi line Google ko batayegi ki website kahan chal rahi hai
         })
       });
 
