@@ -33,7 +33,10 @@ html {
 
 main {
   flex: 1;
-  padding-top: var(--header-offset);
+}
+
+.header-spacer {
+  flex-shrink: 0;
 }
 
 a {
@@ -202,6 +205,120 @@ a {
   transform: translateY(-2px);
 }
 
+/* ---- Hamburger Button ---- */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid rgba(255, 181, 153, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px;
+  transition: border-color 0.3s;
+  z-index: 1100;
+}
+
+.hamburger-btn:hover {
+  border-color: rgba(251, 146, 60, 0.5);
+}
+
+.hamburger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--brand);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---- Mobile Menu Overlay ---- */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1050;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.mobile-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---- Mobile Slide-in Menu ---- */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 80vw;
+  height: 100vh;
+  background: rgba(11, 19, 38, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(255, 181, 153, 0.15);
+  z-index: 1060;
+  padding: 80px 24px 32px;
+  flex-direction: column;
+  gap: 8px;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-link {
+  display: block;
+  padding: 14px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.mobile-menu-link:hover {
+  background: rgba(255, 181, 153, 0.08);
+  color: var(--brand);
+}
+
+.mobile-menu-link.active {
+  color: var(--brand);
+  background: rgba(251, 146, 60, 0.1);
+  border-left: 3px solid #FB923C;
+}
+
+.mobile-menu-link.nav-button {
+  margin-top: 12px;
+  text-align: center;
+  border-left: none;
+}
+
 .hero {
   padding: 56px 0 40px;
 }
@@ -343,46 +460,45 @@ a {
 
 @media (max-width: 900px) {
   :root {
-    --header-offset: 150px;
+    --header-offset: 110px;
   }
 
   .header-inner {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 12px;
   }
 
-  .nav {
-    flex-wrap: wrap;
-    gap: 12px 16px;
+  .nav-desktop {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .mobile-menu-overlay {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --header-offset: 168px;
+    --header-offset: 90px;
   }
 
   .header-inner {
-    padding: 14px 0;
-    gap: 10px;
+    padding: 10px 0;
+    gap: 8px;
   }
 
   .brand-sub {
     display: none;
-  }
-
-  .nav {
-    gap: 8px 12px;
-    font-size: 12px;
-    width: 100%;
-  }
-
-  .nav-button {
-    padding: 7px 12px !important;
-    font-size: 12px;
-    width: 100%;
-    text-align: center;
   }
 
   .top-strip {
@@ -672,7 +788,7 @@ a {
    ========================================================================== */
 
 .products-page-container {
-  padding-top: 3rem;
+  padding-top: 0.5rem;
   padding-bottom: 3rem;
 }
 

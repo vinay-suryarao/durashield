@@ -8,7 +8,7 @@
   font-family: inherit;
   position: relative;
   overflow-x: hidden;
-  padding-top: 40px; /* Reduced from 80px to bring it closer to nav */
+  padding-top: 10px;
   padding-bottom: 60px;
 }
 
@@ -482,7 +482,7 @@
 
 @media (max-width: 480px) {
   .contact-page {
-    padding-top: 24px;
+    padding-top: 6px;
     padding-bottom: 40px;
   }
 
