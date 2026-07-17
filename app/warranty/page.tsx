@@ -205,7 +205,7 @@ export default function WarrantyPage() {
     vehicleNumber: "",
     vehicleName: "",
     city: "",
-    warrantyNo: "DS-",
+    warrantyNo: "DS26-",
     dealerName: "",
     dealerLocation: ""
   });
@@ -225,9 +225,9 @@ export default function WarrantyPage() {
 
     if (name === "warrantyNo") {
       const upperValue = value.toUpperCase();
-      // Agar user DS- ko delete karne ki koshish kare
-      if (!upperValue.startsWith("DS-")) {
-        setFormData((prev) => ({ ...prev, [name]: "DS-" }));
+      // Agar user DS26- ko delete karne ki koshish kare
+      if (!upperValue.startsWith("DS26-")) {
+        setFormData((prev) => ({ ...prev, [name]: "DS26-" }));
       } else {
         setFormData((prev) => ({ ...prev, [name]: upperValue }));
       }
@@ -242,7 +242,7 @@ export default function WarrantyPage() {
   };
 
   const handleWarrantyVerification = async () => {
-    if (!formData.warrantyNo.trim() || formData.warrantyNo === "DS-") return;
+    if (!formData.warrantyNo.trim() || formData.warrantyNo === "DS26-") return;
     setIsSubmitting(true);
     setWarrantyMessage("Checking registration logs across system storage...");
 
@@ -313,7 +313,7 @@ export default function WarrantyPage() {
       }
 
       setSuccessInfo({ warrantyNo: result.warrantyNo });
-      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "DS-", dealerName: "", dealerLocation: "" });
+      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "DS26-", dealerName: "", dealerLocation: "" });
       setInvoiceFile(null);
       setVehicleFile(null);
       setIsValidated(false);
@@ -361,7 +361,7 @@ export default function WarrantyPage() {
           <form onSubmit={handleSubmit} className="warranty-form">
             <div className="form-group" style={{ marginBottom: "24px" }}>
               <label htmlFor="warrantyNo" className="form-label" style={{ fontWeight: "bold" }}>Warranty Number *</label>
-              <input id="warrantyNo" name="warrantyNo" type="text" className="form-input" placeholder="Ex: DS-XXXXX" value={formData.warrantyNo} onChange={handleChange} onBlur={handleWarrantyVerification} required disabled={isSubmitting} style={{ borderColor: isValidated ? "#10b981" : "", textTransform: "uppercase" }} />
+              <input id="warrantyNo" name="warrantyNo" type="text" className="form-input" placeholder="Ex: DS26-XXXXX" value={formData.warrantyNo} onChange={handleChange} onBlur={handleWarrantyVerification} required disabled={isSubmitting} style={{ borderColor: isValidated ? "#10b981" : "", textTransform: "uppercase" }} />
               {warrantyMessage && (
                 <div style={{ marginTop: "8px", padding: "8px 12px", backgroundColor: warrantyMessage.includes("✅") ? "rgba(16, 185, 129, 0.1)" : warrantyMessage.includes("❌") ? "rgba(239, 68, 68, 0.1)" : "rgba(255, 255, 255, 0.05)", color: warrantyMessage.includes("✅") ? "#10b981" : warrantyMessage.includes("❌") ? "#fca5a5" : "#9ca3af", fontSize: "0.85rem", borderRadius: "6px", fontWeight: "600", border: warrantyMessage.includes("✅") ? "1px solid rgba(16, 185, 129, 0.2)" : warrantyMessage.includes("❌") ? "1px solid rgba(239, 68, 68, 0.2)" : "1px solid rgba(255, 255, 255, 0.1)" }}>
                   {warrantyMessage}
