@@ -97,7 +97,7 @@ export default function Header() {
                   priority
                 />
               </Link>
-              <div className="brand-sub">Defending Your Drive,Invisibly</div>
+              <div className="brand-sub">Defending Your Drive, Invisibly</div>
             </div>
 
             {/* Desktop nav */}
