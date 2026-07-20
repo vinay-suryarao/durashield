@@ -46,10 +46,10 @@ export async function POST(request: Request) {
     if (action === "register_warranty") {
       
       // 💡 FIX 1: Frontend se aane wale 'baseUrl' ko extract kiya
-      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, dealerName, dealerLocation, invoiceFile, vehicleFile, baseUrl } = body;
+      const { name, phone, email, warrantyNo, vehicleNumber, vehicleName, city, dealerName, dealerLocation, productName, warrantyYears, invoiceFile, vehicleFile, baseUrl } = body;
 
       // Tight server side parameters checking to avoid payload crashes
-      if (!name || !phone || !email || !warrantyNo || !vehicleNumber || !vehicleName || !city || !dealerName || !dealerLocation || !invoiceFile || !vehicleFile) {
+      if (!name || !phone || !email || !warrantyNo || !vehicleNumber || !vehicleName || !city || !dealerName || !dealerLocation || !productName || !warrantyYears || !invoiceFile || !vehicleFile) {
         return NextResponse.json({ error: 'Missing mandatory registration properties.' }, { status: 400 });
       }
 
@@ -67,9 +67,11 @@ export async function POST(request: Request) {
           city,
           dealerName,
           dealerLocation,
+          productName,
+          warrantyYears,
           invoiceFile,
           vehicleFile,
-          baseUrl // 💡 FIX 2: baseUrl ko Google Apps Script tak bhej diya!
+          baseUrl
         }),
       });
 

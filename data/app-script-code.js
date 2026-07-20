@@ -67,6 +67,8 @@ function doPost(e) {
         "Dealer Name",
         "Dealer Location",
         "Warranty Number",
+        "Product Name",
+        "Warranty Period",
         "Photo Front Link",
         "Photo Rear Link"
       ]);
@@ -85,12 +87,14 @@ function doPost(e) {
       data.dealerName,
       data.dealerLocation,
       data.warrantyNumber,
+      data.productName || "Not Specified",
+      (data.warrantyYears || 5) + " Years",
       photo1Url,
       photo2Url
     ]);
     
-    // 3. Calculate Warranty Validity Period (Default 5 Years)
-    var validityYears = 5;
+    // 3. Calculate Warranty Validity Period (Dynamic based on product selection)
+    var validityYears = data.warrantyYears || 5;
     var endDate = new Date(submissionDate.getTime());
     endDate.setFullYear(endDate.getFullYear() + validityYears);
     
@@ -127,6 +131,14 @@ function doPost(e) {
           '<tr>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Dealer Location</td>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff;">' + data.dealerLocation + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Product</td>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffffff;">' + (data.productName || 'Not Specified') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Warranty Period</td>' +
+            '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #ffb599; font-weight: bold;">' + validityYears + ' Years</td>' +
           '</tr>' +
           '<tr>' +
             '<td style="padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e2bfb2; font-weight: bold;">Registration Date</td>' +

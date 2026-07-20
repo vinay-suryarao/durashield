@@ -493,3 +493,67 @@
 .camera-btn.cancel-btn:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* ===== PRODUCT DROPDOWN & WARRANTY BADGE ===== */
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffb599' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 14px;
+  padding-right: 44px;
+}
+
+.form-select option {
+  background-color: #171f33;
+  color: #ffffff;
+  padding: 12px;
+}
+
+.form-select option:disabled {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.warranty-period-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(255, 181, 153, 0.08), rgba(255, 181, 153, 0.03));
+  border: 1px solid rgba(255, 181, 153, 0.25);
+  border-radius: 10px;
+  animation: badgeFadeIn 0.4s ease-out;
+}
+
+.warranty-period-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.warranty-period-text {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  color: #e2bfb2;
+  letter-spacing: 0.02em;
+}
+
+.warranty-period-text strong {
+  color: #ffb599;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+@keyframes badgeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

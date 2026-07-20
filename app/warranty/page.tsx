@@ -1,9 +1,15 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import "./style.css";
+
+// Product data with warranty periods
+const PRODUCTS = [
+  { name: "Dura Shield Pro (Gloss)", warrantyYears: 10 },
+  { name: "Dura Shield Matte", warrantyYears: 5 },
+  { name: "Dura Shield PPF (Gloss)", warrantyYears: 5 },
+];
 
 interface WarrantyFormData {
   name: string;
@@ -15,6 +21,7 @@ interface WarrantyFormData {
   warrantyNo: string;
   dealerName: string;
   dealerLocation: string;
+  productName: string;
 }
 
 interface PhotoUploadProps {
@@ -65,7 +72,6 @@ function PhotoUpload({ label, description, onPhotoCompressed, disabled }: PhotoU
         const cleanBase64 = fullDataUrl.split(",")[1];
         onPhotoCompressed(cleanBase64);
       };
-
     } catch (err) {
       console.error("Compression crash:", err);
       alert("Failed to compress and format selected file.");
@@ -191,7 +197,6 @@ function PhotoUpload({ label, description, onPhotoCompressed, disabled }: PhotoU
           </div>
         )}
       </div>
-
       <input ref={cameraInputRef} type="file" style={{ display: "none" }} accept="image/*" capture="environment" onChange={handleFileChange} disabled={disabled} />
     </div>
   );
@@ -207,8 +212,12 @@ export default function WarrantyPage() {
     city: "",
     warrantyNo: "DS26-",
     dealerName: "",
-    dealerLocation: ""
+    dealerLocation: "",
+    productName: ""
   });
+
+  const selectedProduct = PRODUCTS.find(p => p.name === formData.productName);
+  const warrantyYears = selectedProduct ? selectedProduct.warrantyYears : null;
 
   const [invoiceFile, setInvoiceFile] = useState<string | null>(null);
   const [vehicleFile, setVehicleFile] = useState<string | null>(null);
@@ -219,13 +228,11 @@ export default function WarrantyPage() {
   const [warrantyMessage, setWarrantyMessage] = useState("");
   const [successInfo, setSuccessInfo] = useState<{ warrantyNo: string } | null>(null);
 
-  // 🛑 NAYA HANDLE CHANGE LOGIC YAHAN HAI
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
 
     if (name === "warrantyNo") {
       const upperValue = value.toUpperCase();
-      // Agar user DS26- ko delete karne ki koshish kare
       if (!upperValue.startsWith("DS26-")) {
         setFormData((prev) => ({ ...prev, [name]: "DS26-" }));
       } else {
@@ -233,10 +240,14 @@ export default function WarrantyPage() {
       }
       setIsValidated(false);
       setWarrantyMessage("");
-      return; 
+      return;
     }
 
-    // Baaki fields ke liye (Email chhod kar sab Uppercase)
+    if (name === "productName") {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      return;
+    }
+
     const processedValue = name === "email" ? value : value.toUpperCase();
     setFormData((prev) => ({ ...prev, [name]: processedValue }));
   };
@@ -274,15 +285,18 @@ export default function WarrantyPage() {
       setStatusMessage("❌ Error: Resolve duplication validations before confirming activation.");
       return;
     }
+    if (!formData.productName) {
+      setStatusMessage("❌ Error: Please select a product before submitting.");
+      return;
+    }
     if (!invoiceFile || !vehicleFile) {
       setStatusMessage("❌ Error: Please provide both Front and Rear side photos.");
       return;
     }
 
-   setIsSubmitting(true);
+    setIsSubmitting(true);
     setStatusMessage("Transmitting verified data streams to private Workspace infrastructure...");
 
-    // 💡 NAYA LOGIC: Website ka link (URL) automatically nikalna
     const currentDomain = window.location.origin;
 
     try {
@@ -293,6 +307,7 @@ export default function WarrantyPage() {
           action: "register_warranty",
           name: formData.name,
           phone: formData.phone,
+          mobile: formData.phone, // Bypass API Validation
           email: formData.email,
           warrantyNo: formData.warrantyNo,
           vehicleNumber: formData.vehicleNumber,
@@ -300,9 +315,12 @@ export default function WarrantyPage() {
           city: formData.city,
           dealerName: formData.dealerName,
           dealerLocation: formData.dealerLocation,
+          productName: formData.productName,
+          warrantyYears: warrantyYears, // Bypass API Validation
+          warrantyPeriod: warrantyYears ? `${warrantyYears} Years` : "N/A", // GAS Final String
           invoiceFile,
           vehicleFile,
-          baseUrl: currentDomain // 👈 Yeh nayi line Google ko batayegi ki website kahan chal rahi hai
+          baseUrl: currentDomain
         })
       });
 
@@ -313,7 +331,7 @@ export default function WarrantyPage() {
       }
 
       setSuccessInfo({ warrantyNo: result.warrantyNo });
-      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "DS26-", dealerName: "", dealerLocation: "" });
+      setFormData({ name: "", phone: "", email: "", vehicleNumber: "", vehicleName: "", city: "", warrantyNo: "DS26-", dealerName: "", dealerLocation: "", productName: "" });
       setInvoiceFile(null);
       setVehicleFile(null);
       setIsValidated(false);
@@ -369,6 +387,34 @@ export default function WarrantyPage() {
               )}
             </div>
 
+            <div className="form-group" style={{ marginBottom: "4px" }}>
+              <label htmlFor="productName" className="form-label" style={{ fontWeight: "bold" }}>Select Product *</label>
+              <select
+                id="productName"
+                name="productName"
+                className="form-input form-select"
+                value={formData.productName}
+                onChange={handleChange}
+                required
+                disabled={isSubmitting}
+              >
+                <option value="" disabled>— Choose a Durashield Product —</option>
+                {PRODUCTS.map((product) => (
+                  <option key={product.name} value={product.name}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+              {warrantyYears !== null && (
+                <div className="warranty-period-badge">
+                  <span className="warranty-period-icon">🛡️</span>
+                  <span className="warranty-period-text">
+                    Warranty Period: <strong>{warrantyYears} Years</strong>
+                  </span>
+                </div>
+              )}
+            </div>
+
             <div className="form-grid form-grid-2">
               <div className="form-group">
                 <label htmlFor="name" className="form-label">Customer Name *</label>
@@ -420,6 +466,7 @@ export default function WarrantyPage() {
             <button type="submit" className="submit-btn" disabled={!isValidated || isSubmitting} style={{ marginTop: "20px" }}>
               {isSubmitting ? "Submitting..." : "Submit Warranty Registration"}
             </button>
+            {statusMessage && <div style={{ marginTop: "15px", textAlign: "center", color: statusMessage.includes("❌") ? "#ef4444" : "#10b981", fontSize: "0.9rem", fontWeight: "bold" }}>{statusMessage}</div>}
           </form>
         </section>
       </main>
