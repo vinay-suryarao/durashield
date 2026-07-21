@@ -8,7 +8,6 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/products", label: "Products" },
-  { href: "/before-after", label: "Before / After" },
   { href: "/contact", label: "Contact Us" },
   { href: "/booking", label: "Book Now", isButton: true }
 ];
